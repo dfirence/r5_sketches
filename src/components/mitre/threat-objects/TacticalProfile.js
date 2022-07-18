@@ -46,7 +46,7 @@ export default function ({ data }) {
   }, []);
 
   return (
-    <div style={{ marginLeft: 80 }}>
+    <div style={{ marginLeft: 0 }}>
       <hr />
         <div>
         <Grid container spacing={0.5}>
