@@ -110,7 +110,7 @@ function loadTactics() {
     "discovery",
     "collection",
     "lateral-movement",
-    "command-control",
+    "command-and-control",
     "exfiltration",
     "impact"
   ]
