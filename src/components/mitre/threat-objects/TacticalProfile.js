@@ -66,7 +66,7 @@ export const Tactic = ({ name, techniques}) => {
   return (
     <React.Fragment>
       <Grid item xs={1}>
-        <Stack spacing={1}>
+        <Stack spacing={0.6}>
           <Item sx={{ backgroundColor: 'black', color: '#FFFFFF'}}>{name}</Item>
           { techniques.map(t => (
             <Item key={uuidv4()}>
