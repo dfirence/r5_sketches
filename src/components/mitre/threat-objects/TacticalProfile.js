@@ -10,7 +10,7 @@ import correlation from '../../../datasamples/correlation_turla.json';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
+  ...theme.typography.caption,
   padding: theme.spacing(1),
   textAlign: 'center',
   color: theme.palette.text.secondary,
@@ -74,7 +74,7 @@ export const Tactic = ({ name, techniques}) => {
     <React.Fragment>
       <Grid item xs={1}>
         <Stack spacing={0.6}>
-          <Item sx={{ backgroundColor: '#F2F3F4', color: '#FFFFF'}}>{`${count} Techniques`}</Item>
+          <Item sx={{ backgroundColor: '#F2F3F4', color: '#FFFFF'}}>{`${count} items`}</Item>
           <Item sx={{ backgroundColor: 'black', color: '#FFFFFF'}}>{name}</Item>
           { techniques.map(t => (
             <Item key={uuidv4()}>
