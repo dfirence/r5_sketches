@@ -24,6 +24,7 @@ export default function ({ data }) {
     //console.log(`Profile: ${profile}`);
     if (correlation === undefined) return
     if (Object.keys(tactics).length === 0 || tactics === undefined) return
+  // eslint-disable-next-line
   }, []);
 
   React.useEffect(() => {
