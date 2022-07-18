@@ -64,10 +64,17 @@ export default function ({ data }) {
 }
 
 export const Tactic = ({ name, techniques}) => {
+  const [count, setCount] = React.useState(0);
+  
+  React.useEffect(() => {
+    if (count === undefined) return
+    setCount(() => techniques.length)
+  }, [count, techniques.length]);
   return (
     <React.Fragment>
       <Grid item xs={1}>
         <Stack spacing={0.6}>
+          <Item sx={{ backgroundColor: '#F2F3F4', color: '#FFFFF'}}>{`${count} Techniques`}</Item>
           <Item sx={{ backgroundColor: 'black', color: '#FFFFFF'}}>{name}</Item>
           { techniques.map(t => (
             <Item key={uuidv4()}>
