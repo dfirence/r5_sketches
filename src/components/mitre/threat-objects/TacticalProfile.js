@@ -33,8 +33,10 @@ export default function ({ data }) {
     let temp = {};
     correlation.forEach(d => {
       Object.keys(temp).includes(d.tactic)
-      ? temp[d.tactic].techniques.push({ tid: d.tid, technique: d.technique })
-      : temp[d.tactic] = { techniques: [{tid: d.tid, technique: d.technique }] }
+      ? temp[d.tactic].techniques.push({
+        tid: d.tid, technique: d.technique, malware: d.correlation_malware, tool: d.correlation_tool })
+      : temp[d.tactic] = { techniques: [{tid: d.tid, technique: d.technique,
+                            malware: d.correlation_malware, tool: d.correlation_tool }] }
     });
     let threat = {};
     killChains.forEach(k => {
@@ -77,20 +79,7 @@ export const Tactic = ({ name, techniques}) => {
           <Item sx={{ backgroundColor: '#F2F3F4', color: '#FFFFF'}}>{`${count} items`}</Item>
           <Item sx={{ backgroundColor: 'black', color: '#FFFFFF'}}>{name}</Item>
           { techniques.map(t => (
-            <Item key={uuidv4()}>
-              <Link key={uuidv4()}
-                underline="hover"
-                target="\_blank"
-                rel="noreferrer"
-                href={
-                  t.tid.includes('.')
-                  ? `https://attack.mitre.org/techniques/${t.tid.split('.')[0]}/${t.tid.split('.')[1]}`
-                  : `https://attack.mitre.org/techniques/${t.tid}`
-                }
-              >
-                {t.tid}
-              </Link>
-            </Item>
+            <Technique Technique key={uuidv4()} technique={t} />
           ))}
         </Stack>
       </Grid>
@@ -98,6 +87,46 @@ export const Tactic = ({ name, techniques}) => {
   )
 }
 
+const Technique = ({ technique }) => {
+  var bg = { backgroundColor: '#fffff', color: 'white' };
+  let wants_light_font = false;
+  if (technique.malware !== "none" && technique.tool === "none") {
+    bg.backgroundColor = "red";
+    wants_light_font = true;
+  }
+  else if (technique.malware === "none" && technique.tool !== "none") {
+    bg.backgroundColor = "blue";
+    wants_light_font = true;
+  }
+  else if (technique.malware !== "none" && technique.tool !== "none") {
+    bg.backgroundColor = "purple";
+    wants_light_font = true;
+  }
+  if (technique.tool.includes("empire")) {
+    bg.backgroundColor = "#004D40";
+    wants_light_font = true;
+  }
+  console.log(JSON.stringify(technique));
+  return (
+    <Item key={uuidv4()}
+      sx={bg}
+    >
+      <Link key={uuidv4()}
+        underline="hover"
+        target="\_blank"
+        rel="noreferrer"
+        sx={ wants_light_font ? {color: '#ffffff'} : null }
+        href={
+          technique.tid.includes('.')
+          ? `https://attack.mitre.org/techniques/${technique.tid.split('.')[0]}/${technique.tid.split('.')[1]}`
+          : `https://attack.mitre.org/techniques/${technique.tid}`
+        }
+      >
+        {technique.tid}
+      </Link>
+    </Item>
+  )
+}
 // eslint-disable-next-line
 function loadTactics() {
   return [
