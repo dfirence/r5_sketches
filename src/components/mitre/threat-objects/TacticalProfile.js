@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import { v4 as uuidv4 } from 'uuid';
 //import profile from '../../../datasamples/profile_mosquito.json';
@@ -89,42 +90,50 @@ export const Tactic = ({ name, techniques}) => {
 
 const Technique = ({ technique }) => {
   var bg = { backgroundColor: '#fffff', color: 'white' };
+  var tt = '';
   let wants_light_font = false;
   if (technique.malware !== "none" && technique.tool === "none") {
     bg.backgroundColor = "red";
     wants_light_font = true;
+    tt = technique.malware
   }
   else if (technique.malware === "none" && technique.tool !== "none") {
     bg.backgroundColor = "blue";
     wants_light_font = true;
+    tt = technique.tool;
   }
   else if (technique.malware !== "none" && technique.tool !== "none") {
     bg.backgroundColor = "purple";
     wants_light_font = true;
+    tt = `${technique.malware}|${technique.tool}`;
   }
   if (technique.tool.includes("empire")) {
     bg.backgroundColor = "#004D40";
     wants_light_font = true;
+    tt = technique.tool;
   }
-  console.log(JSON.stringify(technique));
+  tt = tt.split('|').join('\n\n\n\n');
+  //console.log(JSON.stringify(technique));
   return (
-    <Item key={uuidv4()}
-      sx={bg}
-    >
-      <Link key={uuidv4()}
-        underline="hover"
-        target="\_blank"
-        rel="noreferrer"
-        sx={ wants_light_font ? {color: '#ffffff'} : null }
-        href={
-          technique.tid.includes('.')
-          ? `https://attack.mitre.org/techniques/${technique.tid.split('.')[0]}/${technique.tid.split('.')[1]}`
-          : `https://attack.mitre.org/techniques/${technique.tid}`
-        }
+    <Tooltip title={tt} arrow placement="right">
+      <Item key={uuidv4()}
+        sx={bg}
       >
-        {technique.tid}
-      </Link>
-    </Item>
+        <Link key={uuidv4()}
+          underline="hover"
+          target="\_blank"
+          rel="noreferrer"
+          sx={ wants_light_font ? {color: '#ffffff'} : null }
+          href={
+            technique.tid.includes('.')
+            ? `https://attack.mitre.org/techniques/${technique.tid.split('.')[0]}/${technique.tid.split('.')[1]}`
+            : `https://attack.mitre.org/techniques/${technique.tid}`
+          }
+        >
+          {technique.tid}
+        </Link>
+      </Item>
+    </Tooltip>
   )
 }
 // eslint-disable-next-line
