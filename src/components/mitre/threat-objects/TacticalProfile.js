@@ -130,7 +130,7 @@ const Technique = ({ technique }) => {
             : `https://attack.mitre.org/techniques/${technique.tid}`
           }
         >
-          {technique.tid}
+          {`${technique.tid} - ${technique.technique}`}
         </Link>
       </Item>
     </Tooltip>
